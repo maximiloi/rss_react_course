@@ -15,8 +15,8 @@
     "test": "vitest"
   },
   "lint-staged": {
-    "src/**/*.{ts, html.css}": "prettier --write",
-    "src/**/*.ts": "eslint --color"
+    "src/**/*.{ts,tsx, html.css}": "prettier --write",
+    "src/**/*.{ts,tsx}": "eslint --color"
   },
   "dependencies": {
     "react": "^18.2.0",
