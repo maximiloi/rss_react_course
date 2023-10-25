@@ -6,8 +6,8 @@ module.exports = {
     'airbnb/hooks',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
-    'plugin:prettier/recommended',
     'prettier',
+    'plugin:prettier/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -16,6 +16,7 @@ module.exports = {
     },
     ecmaVersion: 'latest',
     sourceType: 'module',
+    project: './tsconfig.json',
   },
   env: {
     browser: true,
@@ -25,6 +26,7 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'react', 'react-hooks', 'prettier'],
   rules: {
+    'react/prefer-stateless-function': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'comma-dangle': ['error', 'only-multiline'],
