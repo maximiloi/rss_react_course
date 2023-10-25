@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
-import App from './App';
+import Header from './index';
 
-describe('App', () => {
+describe('Header', () => {
   it('Renders "Hello, RSS"', () => {
     // ARRANGE
-    render(<App />);
+    render(<Header />);
     // ACT
     // EXPECT
     expect(
