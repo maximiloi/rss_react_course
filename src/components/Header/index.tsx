@@ -6,8 +6,8 @@ import './style.scss';
 class Header extends Component {
   render() {
     return (
-      <header>
-        <h1>Hello, RSS</h1>
+      <header className="header">
+        <h1 className="header__title">Hello, RSS</h1>
         <Search />
       </header>
     );
