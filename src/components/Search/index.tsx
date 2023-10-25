@@ -8,7 +8,7 @@ class Search extends Component {
       <div className="search">
         <input
           type="text"
-          className="header__search search__input"
+          className="search__input"
           placeholder="search movie..."
         />
         <button type="button" className="search__button">
