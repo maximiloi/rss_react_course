@@ -2,11 +2,13 @@
 
 body {
   font-family: 'JetBrains Mono', monospace;
-}
 
-#app {
-  min-height: 100vh;
-  padding: 30px;
+  display: flex;
+  justify-content: center;
+
+  max-width: 1200px;
+  height: 100vh;
+
   background-image: linear-gradient(
     to left bottom,
     #790b7b,
@@ -15,4 +17,8 @@ body {
     #2a8cde,
     #12abeb
   );
+}
+
+#app {
+  padding: 30px;
 }
