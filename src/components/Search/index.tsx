@@ -5,7 +5,7 @@ import './style.scss';
 class Search extends Component {
   render() {
     return (
-      <div className="search">
+      <div className="search" data-testid="search-component">
         <input
           type="text"
           className="search__input"

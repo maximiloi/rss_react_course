@@ -4,15 +4,13 @@ import { render, screen } from '@testing-library/react';
 import Header from './index';
 
 describe('Header', () => {
-  it('Renders "Hello, RSS"', () => {
-    // ARRANGE
+  it('renders "Hello, RSS" title and search component', () => {
     render(<Header />);
-    // ACT
-    // EXPECT
-    expect(
-      screen.getByRole('heading', {
-        level: 1,
-      })
-    ).toHaveTextContent('Hello, RSS');
+
+    const titleElement = screen.getByRole('heading', { level: 1 });
+    expect(titleElement).toHaveTextContent('Hello, RSS');
+
+    const searchElement = screen.getByTestId('search-component');
+    expect(searchElement).toBeInTheDocument();
   });
 });
