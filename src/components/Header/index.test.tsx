@@ -8,7 +8,7 @@ describe('Header', () => {
     render(<Header />);
 
     const titleElement = screen.getByRole('heading', { level: 1 });
-    expect(titleElement).toHaveTextContent('Hello, RSS');
+    expect(titleElement).toHaveTextContent('Hello, RSS React student');
 
     const searchElement = screen.getByTestId('search-component');
     expect(searchElement).toBeInTheDocument();

@@ -7,7 +7,7 @@ class Header extends Component {
   render() {
     return (
       <header className="header">
-        <h1 className="header__title">Hello, RSS</h1>
+        <h1 className="header__title">Hello, RSS React student</h1>
         <Search />
       </header>
     );
