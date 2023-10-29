@@ -20,7 +20,7 @@ class Search extends Component<InputValueProps, InputValueState> {
     const { inputValue } = this.state;
 
     if (inputValue) {
-      localStorage.setItem('React-Components', inputValue);
+      localStorage.setItem('name-cinema-iloi', inputValue);
       const inputHtmlElem = document.querySelector(
         '.search__input'
       ) as HTMLInputElement;
