@@ -49,7 +49,7 @@ class Search extends Component<InputValueProps, InputValueState> {
           placeholder="search movie..."
           value={inputValue}
           onChange={this.handleInputChange}
-          onKeyPress={this.handleKeyPress}
+          onKeyDown={this.handleKeyPress}
         />
         <button
           type="button"
