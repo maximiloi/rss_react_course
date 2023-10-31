@@ -6,8 +6,7 @@ body {
   display: flex;
   justify-content: center;
 
-  max-width: 1200px;
-  height: 100vh;
+  height: 100%;
 
   background-image: linear-gradient(
     to left bottom,
@@ -21,4 +20,5 @@ body {
 
 #app {
   padding: 30px;
+  max-width: 1200px;
 }
