@@ -1,5 +1,5 @@
 class LocalStorage {
-  static getResult() {
+  static getResult(): string | void | null {
     if (localStorage.getItem('name-cinema-iloi')) {
       return localStorage.getItem('name-cinema-iloi');
     }

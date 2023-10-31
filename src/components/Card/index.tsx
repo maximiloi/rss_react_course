@@ -8,47 +8,49 @@ interface Props {
   searchWord: string;
 }
 
-interface StateResponce {
-  Poster: string;
-  Title: string;
-  Type: string;
-  Year: string;
-  imdbID: string;
+interface ResponseState {
+  readonly imdbID?: string;
+  readonly Title?: string;
+  readonly Poster?: string;
+  readonly Year?: string;
 }
 
-class Card extends Component<Props, StateResponce> {
+interface State {
+  responseData: null | ResponseState[];
+}
+
+class Card extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { responseData: null };
   }
 
   async componentDidMount() {
-    if (!LocalStorage.getResult()) return;
-
     const valueLocalStorage = LocalStorage.getResult();
-    const response = await ApiResponse.fetchData(valueLocalStorage);
 
-    this.setState({ responseData: response });
+    if (typeof valueLocalStorage === 'string') {
+      const response: ResponseState[] =
+        await ApiResponse.fetchData(valueLocalStorage);
+      this.setState({ responseData: response });
+    }
   }
 
   async componentDidUpdate(prevProps: Props) {
     const { searchWord } = this.props;
 
     if (prevProps.searchWord !== searchWord) {
-      const response = await ApiResponse.fetchData(searchWord);
-
+      const response: ResponseState[] = await ApiResponse.fetchData(searchWord);
       this.setState({ responseData: response });
     }
   }
 
   render() {
     const { responseData } = this.state;
-    console.log('responseData: ', responseData);
 
     return (
       <div className="card card__wrapper">
         {responseData &&
-          responseData.map(({ imdbID, Title, Poster, Year }) => (
+          responseData.map(({ imdbID, Title, Poster, Year }: ResponseState) => (
             <div className="card__item" key={imdbID}>
               <img
                 className="card__img"
