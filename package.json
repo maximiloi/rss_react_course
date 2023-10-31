@@ -16,7 +16,7 @@
   },
   "lint-staged": {
     "src/**/*.{ts,tsx, html.css}": "prettier --write",
-    "src/**/*.scss}": "prettier --write",
+    "src/**/*.scss": "prettier --write",
     "src/**/*.{ts,tsx}": "eslint --color"
   },
   "dependencies": {
