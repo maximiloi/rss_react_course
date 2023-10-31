@@ -1,13 +1,32 @@
-import { Component } from 'react';
+import { Component, ChangeEvent } from 'react';
 import Header from './components/Header';
 import Main from './components/Main';
 
-class App extends Component {
+interface Props {}
+
+interface State {
+  searchTerm: string;
+}
+
+class App extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      searchTerm: '',
+    };
+  }
+
+  handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    this.setState({ searchTerm: event.target.value });
+  };
+
   render() {
+    const { searchTerm } = this.state;
+
     return (
       <>
-        <Header />
-        <Main />
+        <Header onSearchChange={this.handleSearchChange} />
+        <Main searchTitle={searchTerm} />
       </>
     );
   }
