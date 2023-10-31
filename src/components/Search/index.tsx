@@ -1,11 +1,13 @@
-import { Component } from 'react';
+import { Component, ChangeEvent } from 'react';
 
 import './style.scss';
 
-interface InputValueProps {}
-
 interface InputValueState {
   inputValue: string;
+}
+
+interface InputValueProps {
+  onSearchChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 class Search extends Component<InputValueProps, InputValueState> {
@@ -17,24 +19,32 @@ class Search extends Component<InputValueProps, InputValueState> {
   }
 
   handleSearch = () => {
+    const { onSearchChange } = this.props;
     const { inputValue } = this.state;
+
+    onSearchChange({
+      target: {
+        value: inputValue,
+      },
+    } as ChangeEvent<HTMLInputElement>);
 
     if (inputValue) {
       localStorage.setItem('name-cinema-iloi', inputValue);
-      const inputHtmlElem = document.querySelector(
-        '.search__input'
-      ) as HTMLInputElement;
-      if (inputHtmlElem) inputHtmlElem.value = '';
+      const inputHtmlElem =
+        document.querySelector<HTMLInputElement>('.search__input');
+      if (inputHtmlElem) {
+        inputHtmlElem.value = '';
+      }
     }
   };
 
-  handleKeyPress = (event: { key: string }) => {
-    if (event.key === 'Enter') {
+  handleKeyPress = ({ key }: { key: string }) => {
+    if (key === 'Enter') {
       this.handleSearch();
     }
   };
 
-  handleInputChange = (event: { target: { value: string } }) => {
+  handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     this.setState({ inputValue: event.target.value });
   };
 
@@ -52,7 +62,7 @@ class Search extends Component<InputValueProps, InputValueState> {
           onKeyDown={this.handleKeyPress}
         />
         <button
-          type="button"
+          type="submit"
           className="search__button"
           onClick={this.handleSearch}
         >

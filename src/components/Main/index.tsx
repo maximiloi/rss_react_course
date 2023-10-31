@@ -1,37 +1,43 @@
 import { Component } from 'react';
+import Card from '../Card';
 import LocalStorage from '../../helper/localStorage';
 
 import './style.scss';
 
-interface Props {}
+interface Props {
+  searchTitle: string;
+}
 
 interface State {
-  data: [] | string | null;
+  mainText: React.ReactText;
 }
 
 class Main extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
+
     this.state = {
-      data: [],
+      mainText: '',
     };
   }
 
-  componentDidMount(): void {
-    const value = LocalStorage.getResult();
-    if (value === undefined) {
-      this.setState({ data: 'type in title of movie in English' });
-    } else {
-      this.setState({ data: value });
-    }
+  componentDidMount() {
+    const valueLocalStorage = LocalStorage.getResult();
+    const mainText = valueLocalStorage
+      ? `Your last request "${valueLocalStorage}"`
+      : `Type in the title of the movie in English`;
+
+    this.setState({ mainText });
   }
 
   render() {
-    const { data } = this.state;
+    const { mainText } = this.state;
+    const { searchTitle } = this.props;
 
     return (
       <main>
-        <h2>{data}</h2>
+        <h2>{mainText}</h2>
+        <Card searchWord={searchTitle} />
       </main>
     );
   }
