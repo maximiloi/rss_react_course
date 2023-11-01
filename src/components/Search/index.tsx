@@ -30,11 +30,6 @@ class Search extends Component<InputValueProps, InputValueState> {
 
     if (inputValue) {
       localStorage.setItem('name-cinema-iloi', inputValue);
-      const inputHtmlElem =
-        document.querySelector<HTMLInputElement>('.search__input');
-      if (inputHtmlElem) {
-        inputHtmlElem.value = '';
-      }
     }
   };
 
