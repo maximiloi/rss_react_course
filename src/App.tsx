@@ -1,6 +1,6 @@
 import { Component, ChangeEvent } from 'react';
-import Header from './components/Header';
-import Main from './components/Main';
+import Header from '@components/Header';
+import Main from '@components/Main';
 
 interface Props {}
 

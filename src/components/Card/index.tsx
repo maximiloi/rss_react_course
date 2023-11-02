@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import ApiResponse from '../../helper/apiResponce';
-import LocalStorage from '../../helper/localStorage';
+import ApiResponse from '@helper/apiResponce';
+import LocalStorage from '@helper/localStorage';
 
 import './style.scss';
 

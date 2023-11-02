@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import Card from '../Card';
-import LocalStorage from '../../helper/localStorage';
+import Card from '@components/Card';
+import LocalStorage from '@helper/localStorage';
 
 import './style.scss';
 

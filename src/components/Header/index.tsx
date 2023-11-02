@@ -1,5 +1,5 @@
 import { Component, ChangeEvent } from 'react';
-import Search from '../Search';
+import Search from '@components/Search';
 
 import './style.scss';
 
