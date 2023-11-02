@@ -1,77 +1,65 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import Spin from '@components/Spin';
 import ApiResponse from '@helper/apiResponce';
 import LocalStorage from '@helper/localStorage';
 
 import './style.scss';
 
+interface ResponseState {
+  imdbID: string;
+  Title: string;
+  Poster: string;
+  Year: string;
+}
+
 interface Props {
   searchWord: string;
 }
 
-interface ResponseState {
-  readonly imdbID?: string;
-  readonly Title?: string;
-  readonly Poster?: string;
-  readonly Year?: string;
-}
+function Card({ searchWord }: Props) {
+  const [responseData, setResponseData] = useState<ResponseState[] | null>(
+    null
+  );
+  const [loading, setLoading] = useState<boolean>(true);
 
-interface State {
-  responseData: null | ResponseState[];
-  loading: boolean;
-}
+  const fetchData = async (keyword: string) => {
+    const response: ResponseState[] = await ApiResponse.fetchData(keyword);
+    setResponseData(response);
+    setLoading(false);
+  };
 
-class Card extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { responseData: null, loading: true };
-  }
-
-  async componentDidMount() {
+  useEffect(() => {
     const valueLocalStorage = LocalStorage.getResult();
-
     if (typeof valueLocalStorage === 'string') {
-      const response: ResponseState[] =
-        await ApiResponse.fetchData(valueLocalStorage);
-      this.setState({ responseData: response, loading: false });
+      fetchData(valueLocalStorage);
     }
-  }
+  });
 
-  async componentDidUpdate(prevProps: Props) {
-    const { searchWord } = this.props;
+  useEffect(() => {
+    fetchData(searchWord);
+  }, [searchWord]);
 
-    if (prevProps.searchWord !== searchWord) {
-      const response: ResponseState[] = await ApiResponse.fetchData(searchWord);
-      this.setState({ responseData: response, loading: false });
-    }
-  }
-
-  render() {
-    const { responseData, loading } = this.state;
-
-    return (
-      <div className="card card__wrapper">
-        {loading ? (
-          <Spin />
-        ) : (
-          responseData &&
-          responseData.map(({ imdbID, Title, Poster, Year }: ResponseState) => (
-            <div className="card__item" key={imdbID}>
-              <img
-                className="card__img"
-                src={Poster}
-                alt={Title}
-                width="182px"
-                height="268px"
-              />
-              <p>{Year}</p>
-              <h3>{Title}</h3>
-            </div>
-          ))
-        )}
-      </div>
-    );
-  }
+  return (
+    <div className="card card__wrapper">
+      {loading ? (
+        <Spin />
+      ) : (
+        responseData?.map((item: ResponseState) => (
+          <div className="card__item" key={item.imdbID}>
+            <img
+              className="card__img"
+              src={item.Poster}
+              alt={item.Title}
+              width="182px"
+              height="268px"
+            />
+            <p>{item.Year}</p>
+            <h3>{item.Title}</h3>
+          </div>
+        ))
+      )}
+    </div>
+  );
 }
 
 export default Card;
