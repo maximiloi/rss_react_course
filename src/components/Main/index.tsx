@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import Card from '@components/Card';
 import LocalStorage from '@helper/localStorage';
 
@@ -8,39 +8,24 @@ interface Props {
   searchTitle: string;
 }
 
-interface State {
-  mainText: string;
-}
+function Main({ searchTitle }: Props) {
+  const [mainText, setMainText] = useState('');
 
-class Main extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      mainText: '',
-    };
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     const valueLocalStorage = LocalStorage.getResult();
-    const mainText = valueLocalStorage
+    const text = valueLocalStorage
       ? `Your last request "${valueLocalStorage}"`
       : `Type in the title of the movie in English`;
 
-    this.setState({ mainText });
-  }
+    setMainText(text);
+  }, []);
 
-  render() {
-    const { mainText } = this.state;
-    const { searchTitle } = this.props;
-
-    return (
-      <main>
-        <h2>{mainText}</h2>
-        <Card searchWord={searchTitle} />
-      </main>
-    );
-  }
+  return (
+    <main>
+      <h2>{mainText}</h2>
+      <Card searchWord={searchTitle} />
+    </main>
+  );
 }
 
 export default Main;
