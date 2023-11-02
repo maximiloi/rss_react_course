@@ -1,27 +1,15 @@
-import { Component, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 
 import './style.scss';
 
-interface InputValueState {
-  inputValue: string;
-}
-
-interface InputValueProps {
+interface Props {
   onSearchChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-class Search extends Component<InputValueProps, InputValueState> {
-  constructor(props: InputValueProps) {
-    super(props);
-    this.state = {
-      inputValue: '',
-    };
-  }
+function Search({ onSearchChange }: Props) {
+  const [inputValue, setInputValue] = useState<string>('');
 
-  handleSearch = () => {
-    const { onSearchChange } = this.props;
-    const { inputValue } = this.state;
-
+  const handleSearch = () => {
     onSearchChange({
       target: {
         value: inputValue,
@@ -33,39 +21,38 @@ class Search extends Component<InputValueProps, InputValueState> {
     }
   };
 
-  handleKeyPress = ({ key }: { key: string }) => {
-    if (key === 'Enter') {
-      this.handleSearch();
+  const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
     }
   };
 
-  handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ inputValue: event.target.value });
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
   };
 
-  render() {
-    const { inputValue } = this.state;
+  useEffect(() => {
+    const storedValue = localStorage.getItem('name-cinema-iloi');
+    if (storedValue) {
+      setInputValue(storedValue);
+    }
+  }, []);
 
-    return (
-      <div className="search" data-testid="search-component">
-        <input
-          type="text"
-          className="search__input"
-          placeholder="search movie..."
-          value={inputValue}
-          onChange={this.handleInputChange}
-          onKeyDown={this.handleKeyPress}
-        />
-        <button
-          type="submit"
-          className="search__button"
-          onClick={this.handleSearch}
-        >
-          search
-        </button>
-      </div>
-    );
-  }
+  return (
+    <div className="search" data-testid="search-component">
+      <input
+        type="text"
+        className="search__input"
+        placeholder="search movie..."
+        value={inputValue}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyPress}
+      />
+      <button type="submit" className="search__button" onClick={handleSearch}>
+        search
+      </button>
+    </div>
+  );
 }
 
 export default Search;
