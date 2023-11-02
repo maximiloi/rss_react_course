@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import Card from '@components/Card';
+import Spin from '@components/Spin';
 import LocalStorage from '@helper/localStorage';
 
 import './style.scss';
@@ -36,6 +37,7 @@ class Main extends Component<Props, State> {
 
     return (
       <main>
+        <Spin />
         <h2>{mainText}</h2>
         <Card searchWord={searchTitle} />
       </main>
