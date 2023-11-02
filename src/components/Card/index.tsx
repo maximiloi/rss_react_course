@@ -33,7 +33,7 @@ function Card({ searchWord }: Props) {
     if (typeof valueLocalStorage === 'string') {
       fetchData(valueLocalStorage);
     }
-  });
+  }, []);
 
   useEffect(() => {
     fetchData(searchWord);
