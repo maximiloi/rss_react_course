@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import Spin from '@components/Spin';
 import ApiResponse from '@helper/apiResponce';
 import LocalStorage from '@helper/localStorage';
 
@@ -17,12 +18,13 @@ interface ResponseState {
 
 interface State {
   responseData: null | ResponseState[];
+  loading: boolean;
 }
 
 class Card extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { responseData: null };
+    this.state = { responseData: null, loading: true };
   }
 
   async componentDidMount() {
@@ -31,7 +33,7 @@ class Card extends Component<Props, State> {
     if (typeof valueLocalStorage === 'string') {
       const response: ResponseState[] =
         await ApiResponse.fetchData(valueLocalStorage);
-      this.setState({ responseData: response });
+      this.setState({ responseData: response, loading: false });
     }
   }
 
@@ -40,16 +42,19 @@ class Card extends Component<Props, State> {
 
     if (prevProps.searchWord !== searchWord) {
       const response: ResponseState[] = await ApiResponse.fetchData(searchWord);
-      this.setState({ responseData: response });
+      this.setState({ responseData: response, loading: false });
     }
   }
 
   render() {
-    const { responseData } = this.state;
+    const { responseData, loading } = this.state;
 
     return (
       <div className="card card__wrapper">
-        {responseData &&
+        {loading ? (
+          <Spin />
+        ) : (
+          responseData &&
           responseData.map(({ imdbID, Title, Poster, Year }: ResponseState) => (
             <div className="card__item" key={imdbID}>
               <img
@@ -62,7 +67,8 @@ class Card extends Component<Props, State> {
               <p>{Year}</p>
               <h3>{Title}</h3>
             </div>
-          ))}
+          ))
+        )}
       </div>
     );
   }
