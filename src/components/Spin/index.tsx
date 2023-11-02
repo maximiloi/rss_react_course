@@ -1,5 +1,6 @@
-import './style.scss';
 import spinImg from '@assets/cinema.png';
+
+import './style.scss';
 
 export default function Spin() {
   return (
