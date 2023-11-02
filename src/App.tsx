@@ -1,35 +1,22 @@
-import { Component, ChangeEvent } from 'react';
+import { SetStateAction, useState } from 'react';
 import Header from '@components/Header';
 import Main from '@components/Main';
 
-interface Props {}
+function App() {
+  const [searchTerm, setSearchTerm] = useState('');
 
-interface State {
-  searchTerm: string;
-}
-
-class App extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      searchTerm: '',
-    };
-  }
-
-  handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchTerm: event.target.value });
+  const handleSearchChange = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setSearchTerm(event.target.value);
   };
 
-  render() {
-    const { searchTerm } = this.state;
-
-    return (
-      <>
-        <Header onSearchChange={this.handleSearchChange} />
-        <Main searchTitle={searchTerm} />
-      </>
-    );
-  }
+  return (
+    <>
+      <Header onSearchChange={handleSearchChange} />
+      <Main searchTitle={searchTerm} />
+    </>
+  );
 }
 
 export default App;
