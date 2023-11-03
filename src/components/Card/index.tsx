@@ -22,15 +22,22 @@ function Card({ searchWord }: Props) {
   const [itemArray, setItemArray] = useState<ICard[] | null>(null);
   const [totalCards, setTotalCards] = useState<string>('');
 
-  const fetchData = async (keyword: string) => {
+  const fetchData = async (keyword: string, pageNumber = 1) => {
     const response: {
       Search: ICard[];
       totalResults: string;
-    } = await ApiResponse.fetchData(keyword);
+    } = await ApiResponse.fetchData(keyword, pageNumber);
 
     setItemArray(response.Search);
     setTotalCards(response.totalResults);
     setLoading(false);
+  };
+
+  const handlePageChange = (pageNumber: number) => {
+    const valueLocalStorage = LocalStorage.getResult();
+    if (typeof valueLocalStorage === 'string') {
+      fetchData(valueLocalStorage, pageNumber);
+    }
   };
 
   useEffect(() => {
@@ -67,7 +74,7 @@ function Card({ searchWord }: Props) {
           ))
         )}
       </div>
-      <Pagination totalCards={totalCards} />
+      <Pagination totalCards={totalCards} onPageChange={handlePageChange} />
     </>
   );
 }
