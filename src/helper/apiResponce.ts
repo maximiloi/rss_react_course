@@ -1,19 +1,10 @@
-interface Response {
-  imdbID: string;
-  Title: string;
-  Poster: string;
-  Year: string;
-}
-
 class ApiResponse {
-  static async fetchData(value: string): Promise<Response[]> {
-    const url = `https://www.omdbapi.com/?s=${value}&apikey=67e1bb9b`;
-
+  static async fetchData(value: string, pageNumber = 1) {
+    const url = `https://www.omdbapi.com/?apikey=67e1bb9b&s=${value}&page=${pageNumber}`;
     const response = await fetch(url);
     const data = await response.json();
-    const results = await data.Search;
 
-    return results;
+    return data;
   }
 }
 
