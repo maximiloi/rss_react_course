@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import Spin from '@components/Spin';
+import Pagination from '@components/Pagination';
 import ApiResponse from '@helper/apiResponce';
 import LocalStorage from '@helper/localStorage';
 
 import './style.scss';
 
-interface ResponseState {
+export interface ICard {
   imdbID: string;
   Title: string;
   Poster: string;
@@ -17,14 +18,18 @@ interface Props {
 }
 
 function Card({ searchWord }: Props) {
-  const [responseData, setResponseData] = useState<ResponseState[] | null>(
-    null
-  );
   const [loading, setLoading] = useState<boolean>(true);
+  const [itemArray, setItemArray] = useState<ICard[] | null>(null);
+  const [totalCards, setTotalCards] = useState<string>('');
 
   const fetchData = async (keyword: string) => {
-    const response: ResponseState[] = await ApiResponse.fetchData(keyword);
-    setResponseData(response);
+    const response: {
+      Search: ICard[];
+      totalResults: string;
+    } = await ApiResponse.fetchData(keyword);
+
+    setItemArray(response.Search);
+    setTotalCards(response.totalResults);
     setLoading(false);
   };
 
@@ -36,29 +41,34 @@ function Card({ searchWord }: Props) {
   }, []);
 
   useEffect(() => {
-    fetchData(searchWord);
+    if (searchWord) {
+      fetchData(searchWord);
+    }
   }, [searchWord]);
 
   return (
-    <div className="card card__wrapper">
-      {loading ? (
-        <Spin />
-      ) : (
-        responseData?.map((item: ResponseState) => (
-          <div className="card__item" key={item.imdbID}>
-            <img
-              className="card__img"
-              src={item.Poster}
-              alt={item.Title}
-              width="182px"
-              height="268px"
-            />
-            <p>{item.Year}</p>
-            <h3>{item.Title}</h3>
-          </div>
-        ))
-      )}
-    </div>
+    <>
+      <div className="card card__wrapper">
+        {loading ? (
+          <Spin />
+        ) : (
+          itemArray?.map((item: ICard) => (
+            <div className="card__item" key={item.imdbID}>
+              <img
+                className="card__img"
+                src={item.Poster}
+                alt={item.Title}
+                width="182px"
+                height="268px"
+              />
+              <p>{item.Year}</p>
+              <h3>{item.Title}</h3>
+            </div>
+          ))
+        )}
+      </div>
+      <Pagination totalCards={totalCards} />
+    </>
   );
 }
 
