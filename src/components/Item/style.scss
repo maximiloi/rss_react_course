@@ -1,0 +1,24 @@
+.item {
+  &__wrapper {
+    max-width: 500px;
+    width: 100%;
+
+    padding: 0 30px;
+  }
+
+  &__text {
+    & span {
+      padding: 0 10px;
+      border-radius: 5px;
+      &.green {
+        background-color: green;
+      }
+      &.yellow {
+        background-color: rgb(165, 165, 12);
+      }
+      &.red {
+        background-color: rgb(182, 18, 18);
+      }
+    }
+  }
+}
