@@ -12,6 +12,7 @@ interface ItemInterface {
   Director: string;
   Actors: string;
   Plot: string;
+  Type: string;
   imdbRating: number;
 }
 
@@ -63,19 +64,29 @@ function Item({ IdIMDB }: Props) {
     return <div>No data available</div>;
   }
 
-  const { Poster, Title, Released, Genre, Director, Actors, Plot, imdbRating } =
-    totalCards;
+  const {
+    Poster,
+    Title,
+    Released,
+    Genre,
+    Director,
+    Actors,
+    Plot,
+    imdbRating,
+    Type,
+  } = totalCards;
 
   return (
     <div className="item__wrapper">
       <div className="item__box">
         <img src={Poster} alt={Title} className="item__img-top" />
         <div className="item__body">
+          <span className="item__type">Type: {Type}</span>
           <h3 className="item__title">{Title}</h3>
           <p className="item__text">
             IMDb Rating: {getRatingColor(imdbRating)}
           </p>
-          <p className="item__text">Released: {Released}</p>
+          <p className="item__text">Premiere: {Released}</p>
           <p className="item__text">Genre: {Genre}</p>
           <p className="item__text">Director: {Director}</p>
           <p className="item__text">Actors: {Actors}</p>

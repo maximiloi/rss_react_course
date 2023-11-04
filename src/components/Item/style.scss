@@ -21,4 +21,13 @@
       }
     }
   }
+
+  &__type {
+    padding: 5px 15px;
+    border-radius: 8px;
+    background-color: rgb(70, 0, 128);
+
+    color: white;
+    font-size: 14px;
+  }
 }
