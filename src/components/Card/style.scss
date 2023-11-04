@@ -1,5 +1,5 @@
 .card {
-  &__wrapper {
+  &__list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -13,5 +13,11 @@
   &__img {
     width: 182px;
     height: 268px;
+  }
+}
+
+.cards {
+  &__wrapper {
+    display: flex;
   }
 }
