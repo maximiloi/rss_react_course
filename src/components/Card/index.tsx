@@ -27,14 +27,20 @@ function Card({ searchWord }: Props) {
   const [imdbIDCard, setImdbIDCard] = useState<string>('');
 
   const fetchCardsData = async (keyword: string, pageNumber = '1') => {
-    const response: {
-      Search: ICard[];
-      totalResults: string;
-    } = await ApiResponse.fetchCardsData(keyword, pageNumber);
+    try {
+      setLoading(true);
+      const response: {
+        Search: ICard[];
+        totalResults: string;
+      } = await ApiResponse.fetchCardsData(keyword, pageNumber);
 
-    setItemArray(response.Search);
-    setTotalCards(response.totalResults);
-    setLoading(false);
+      setItemArray(response.Search);
+      setTotalCards(response.totalResults);
+    } catch (error) {
+      console.error('Error fetching card data:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handlePageChange = (pageNumber: number) => {
