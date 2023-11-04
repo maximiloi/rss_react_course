@@ -9,6 +9,14 @@
   }
 
   &__item {
+    &:first-child {
+      margin-right: 10px;
+    }
+
+    &:last-child {
+      margin-left: 10px;
+    }
+
     & span {
       color: black;
       text-decoration: none;

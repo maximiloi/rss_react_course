@@ -80,14 +80,20 @@ function Pagination({
 
     return (
       <ul className="pagination__list">
-        <li
-          className={
-            currentPage === 1 ? 'disabled pagination__item' : 'pagination__item'
-          }
-          onClick={() => handlePageChange(1)}
-        >
-          <span>1</span>
-        </li>
+        {currentPage > Math.ceil(visiblePages / 2) ? (
+          <li
+            className={
+              currentPage === 1
+                ? 'disabled pagination__item'
+                : 'pagination__item'
+            }
+            onClick={() => handlePageChange(1)}
+          >
+            <span>1</span>
+          </li>
+        ) : (
+          ''
+        )}
         {pages}
         <li
           className={
