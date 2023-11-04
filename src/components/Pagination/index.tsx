@@ -20,7 +20,7 @@ function Pagination({
   }, [searchWord]);
 
   useEffect(() => {
-    const totalPages = Math.ceil(+totalCards / 10);
+    const totalPages = Math.ceil(Number(totalCards) / 10);
     setPageCount(totalPages);
   }, [totalCards]);
 
