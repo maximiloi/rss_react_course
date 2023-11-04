@@ -74,7 +74,11 @@ function Card({ searchWord }: Props) {
           ))
         )}
       </div>
-      <Pagination totalCards={totalCards} onPageChange={handlePageChange} />
+      <Pagination
+        totalCards={totalCards}
+        onPageChange={handlePageChange}
+        searchWord={searchWord}
+      />
     </>
   );
 }

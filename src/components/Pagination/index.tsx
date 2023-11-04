@@ -6,12 +6,18 @@ import './style.scss';
 function Pagination({
   totalCards,
   onPageChange,
+  searchWord,
 }: {
   totalCards: string;
   onPageChange: (pageNumber: number) => void;
+  searchWord: string;
 }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState(1);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchWord]);
 
   useEffect(() => {
     const totalPages = Math.ceil(+totalCards / 10);
