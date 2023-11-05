@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 
 import Spin from '@components/Spin';
 import Item from '@components/Item';
@@ -28,15 +28,16 @@ function Card({ searchWord }: Props) {
   const [totalCards, setTotalCards] = useState<string>('');
   const [imdbIdCard, setImdbIdCard] = useState<string>('');
   const [pageChange, setPageChange] = useState<number>(1);
+  const [searchParams] = useSearchParams();
   const location = useLocation();
 
-  const fetchCardsData = async (keyword: string, pageNumber = '1') => {
+  const fetchCardsData = async (keyword: string, pageNumber: number) => {
     try {
       setLoading(true);
       const response: {
         Search: ICard[];
         totalResults: string;
-      } = await ApiResponse.fetchCardsData(keyword, pageNumber);
+      } = await ApiResponse.fetchCardsData(keyword, pageNumber.toString());
 
       setItemArray(response.Search);
       setTotalCards(response.totalResults);
@@ -50,7 +51,7 @@ function Card({ searchWord }: Props) {
   const handlePageChange = (pageNumber: number) => {
     const valueLocalStorage = LocalStorage.getResult();
     if (typeof valueLocalStorage === 'string') {
-      fetchCardsData(valueLocalStorage, pageNumber.toString());
+      fetchCardsData(valueLocalStorage, pageNumber);
     }
     setPageChange(pageNumber);
   };
@@ -60,25 +61,28 @@ function Card({ searchWord }: Props) {
   };
 
   useEffect(() => {
+    const query = searchParams.get('search');
+    if (query) return;
     const valueLocalStorage = LocalStorage.getResult();
     if (typeof valueLocalStorage === 'string') {
-      fetchCardsData(valueLocalStorage);
+      fetchCardsData(valueLocalStorage, pageChange);
     }
   }, []);
 
   useEffect(() => {
-    if (searchWord) {
-      fetchCardsData(searchWord);
-    }
-  }, [searchWord]);
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
     const query = searchParams.get('search');
-    if (!query) return;
-    LocalStorage.setResult(query);
-    fetchCardsData(query);
-  }, [location.search]);
+    const page = searchParams.get('page');
+
+    if (searchWord) {
+      fetchCardsData(searchWord, pageChange);
+    }
+    if (query && !page) {
+      fetchCardsData(query, 1);
+    }
+    if (query && page) {
+      fetchCardsData(query, +page);
+    }
+  }, [location.search, searchWord]);
 
   return (
     <>

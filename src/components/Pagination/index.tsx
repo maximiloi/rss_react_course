@@ -1,6 +1,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
+import LocalStorage from '@helper/localStorage';
+
 import './style.scss';
 
 function Pagination({
@@ -13,28 +16,34 @@ function Pagination({
   searchWord: string;
 }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageCount, setPageCount] = useState(1);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchWord]);
-
-  useEffect(() => {
-    const totalPages = Math.ceil(Number(totalCards) / 10);
-    setPageCount(totalPages);
-  }, [totalCards]);
+  const [itemCount, setItemCount] = useState(1);
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
     onPageChange(pageNumber);
+
+    const inputValue = LocalStorage.getResult();
+    if (!inputValue) return;
+
+    if (pageNumber === 1) {
+      searchParams.set('search', inputValue);
+      searchParams.delete('page');
+    } else {
+      searchParams.set('search', inputValue);
+      searchParams.set('page', pageNumber.toString());
+    }
+    navigate(`?${searchParams.toString()}`);
   };
 
   const renderPagination = () => {
     const visiblePages = 5;
     const pages = [];
 
-    if (pageCount <= visiblePages) {
-      for (let i = 1; i <= pageCount; i += 1) {
+    if (itemCount <= visiblePages) {
+      for (let i = 1; i <= itemCount; i += 1) {
         pages.push(
           <li
             key={i}
@@ -55,9 +64,9 @@ function Pagination({
       if (currentPage <= middlePage) {
         startPage = 1;
         endPage = visiblePages;
-      } else if (currentPage + middlePage >= pageCount) {
-        startPage = pageCount - visiblePages + 1;
-        endPage = pageCount;
+      } else if (currentPage + middlePage >= itemCount) {
+        startPage = itemCount - visiblePages + 1;
+        endPage = itemCount;
       } else {
         startPage = currentPage - middlePage + 1;
         endPage = currentPage + middlePage - 1;
@@ -97,17 +106,32 @@ function Pagination({
         {pages}
         <li
           className={
-            currentPage === pageCount
+            currentPage === itemCount
               ? 'disabled pagination__item'
               : 'pagination__item'
           }
-          onClick={() => handlePageChange(pageCount)}
+          onClick={() => handlePageChange(itemCount)}
         >
-          <span>{pageCount}</span>
+          <span>{itemCount}</span>
         </li>
       </ul>
     );
   };
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchWord]);
+
+  useEffect(() => {
+    const totalPages = Math.ceil(Number(totalCards) / 10);
+    setItemCount(totalPages);
+  }, [totalCards]);
+
+  useEffect(() => {
+    const page = searchParams.get('page');
+    if (!page) return;
+    setCurrentPage(+page);
+  }, [location.search]);
 
   return <div className="pagination">{renderPagination()}</div>;
 }
