@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+
 import Spin from '@components/Spin';
 import Item from '@components/Item';
 import Pagination from '@components/Pagination';
@@ -26,6 +28,7 @@ function Card({ searchWord }: Props) {
   const [totalCards, setTotalCards] = useState<string>('');
   const [imdbIdCard, setImdbIdCard] = useState<string>('');
   const [pageChange, setPageChange] = useState<number>(1);
+  const location = useLocation();
 
   const fetchCardsData = async (keyword: string, pageNumber = '1') => {
     try {
@@ -68,6 +71,14 @@ function Card({ searchWord }: Props) {
       fetchCardsData(searchWord);
     }
   }, [searchWord]);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const query = searchParams.get('search');
+    if (!query) return;
+    LocalStorage.setResult(query);
+    fetchCardsData(query);
+  }, [location.search]);
 
   return (
     <>

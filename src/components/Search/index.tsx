@@ -1,4 +1,5 @@
-import { useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 import './style.scss';
 
@@ -8,28 +9,8 @@ interface Props {
 
 function Search({ onSearchChange }: Props) {
   const [inputValue, setInputValue] = useState<string>('');
-
-  const handleSearch = () => {
-    onSearchChange({
-      target: {
-        value: inputValue,
-      },
-    } as ChangeEvent<HTMLInputElement>);
-
-    if (inputValue) {
-      localStorage.setItem('name-cinema-iloi', inputValue);
-    }
-  };
-
-  const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedValue = localStorage.getItem('name-cinema-iloi');
@@ -38,20 +19,39 @@ function Search({ onSearchChange }: Props) {
     }
   }, []);
 
+  const handleSearch = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    onSearchChange({
+      target: {
+        value: inputValue,
+      },
+    } as ChangeEvent<HTMLInputElement>);
+
+    if (inputValue) {
+      localStorage.setItem('name-cinema-iloi', inputValue);
+
+      searchParams.set('search', inputValue);
+      navigate(`?${searchParams.toString()}`);
+    }
+  };
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
   return (
-    <div className="search" data-testid="search-component">
+    <form className="search" data-testid="search-component">
       <input
         type="text"
         className="search__input"
         placeholder="search movie..."
         value={inputValue}
         onChange={handleInputChange}
-        onKeyDown={handleKeyPress}
       />
-      <button type="button" className="search__button" onClick={handleSearch}>
+      <button type="submit" className="search__button" onClick={handleSearch}>
         search
       </button>
-    </div>
+    </form>
   );
 }
 
