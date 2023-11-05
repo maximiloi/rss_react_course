@@ -23,6 +23,7 @@ interface Props {
 function Item({ IdIMDB }: Props) {
   const [totalCards, setTotalCards] = useState<ItemInterface | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isItemVisible, setItemIsVisible] = useState(true);
 
   const fetchCardData = async () => {
     try {
@@ -50,9 +51,14 @@ function Item({ IdIMDB }: Props) {
     return <span className="red">{rating}</span>;
   };
 
+  const handleUnmount = () => {
+    setItemIsVisible(false);
+  };
+
   useEffect(() => {
     if (IdIMDB) {
       fetchCardData();
+      setItemIsVisible(true);
     }
   }, [IdIMDB]);
 
@@ -61,7 +67,7 @@ function Item({ IdIMDB }: Props) {
   }
 
   if (!totalCards) {
-    return <div>No data available</div>;
+    return '';
   }
 
   const {
@@ -77,25 +83,27 @@ function Item({ IdIMDB }: Props) {
   } = totalCards;
 
   return (
-    <div className="item__wrapper">
-      <div className="item__box">
-        <button className="item__close" type="button">
-          Close
-        </button>
-        <img src={Poster} alt={Title} className="item__img-top" />
-        <div className="item__body">
-          <span className="item__type">Type: {Type}</span>
-          <h3 className="item__title">{Title}</h3>
-          <p className="item__text">
-            IMDb Rating: {getRatingColor(imdbRating)}
-          </p>
-          <p className="item__text">Premiere: {Released}</p>
-          <p className="item__text">Genre: {Genre}</p>
-          <p className="item__text">Director: {Director}</p>
-          <p className="item__text">Actors: {Actors}</p>
-          <p className="item__text">Plot: {Plot}</p>
+    <div className="item">
+      {isItemVisible && (
+        <div className="item__box">
+          <button className="item__close" type="button" onClick={handleUnmount}>
+            Close
+          </button>
+          <img src={Poster} alt={Title} className="item__img-top" />
+          <div className="item__body">
+            <span className="item__type">Type: {Type}</span>
+            <h3 className="item__title">{Title}</h3>
+            <p className="item__text">
+              IMDb Rating: {getRatingColor(imdbRating)}
+            </p>
+            <p className="item__text">Premiere: {Released}</p>
+            <p className="item__text">Genre: {Genre}</p>
+            <p className="item__text">Director: {Director}</p>
+            <p className="item__text">Actors: {Actors}</p>
+            <p className="item__text">Plot: {Plot}</p>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
