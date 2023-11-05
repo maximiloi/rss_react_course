@@ -1,0 +1,39 @@
+.item {
+  max-width: 500px;
+  padding: 0 30px;
+
+  &__box {
+    position: relative;
+  }
+
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  &__text {
+    & span {
+      padding: 0 10px;
+      border-radius: 5px;
+      &.green {
+        background-color: green;
+      }
+      &.yellow {
+        background-color: rgb(165, 165, 12);
+      }
+      &.red {
+        background-color: rgb(182, 18, 18);
+      }
+    }
+  }
+
+  &__type {
+    padding: 5px 15px;
+    border-radius: 8px;
+    background-color: rgb(70, 0, 128);
+
+    color: white;
+    font-size: 14px;
+  }
+}

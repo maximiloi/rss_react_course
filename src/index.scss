@@ -1,0 +1,26 @@
+@import '/node_modules/normalize.css/normalize.css';
+
+body {
+  font-family: 'JetBrains Mono', monospace;
+
+  display: flex;
+  justify-content: center;
+
+  height: 100%;
+  min-height: 100vh;
+
+  background-image: linear-gradient(
+    to left bottom,
+    #790b7b,
+    #6a45a6,
+    #4f6bc7,
+    #2a8cde,
+    #12abeb
+  );
+}
+
+#app {
+  padding: 15px 30px;
+  max-width: 1200px;
+  width: 100%;
+}
