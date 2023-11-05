@@ -24,7 +24,8 @@ function Card({ searchWord }: Props) {
   const [loading, setLoading] = useState<boolean>(true);
   const [itemArray, setItemArray] = useState<ICard[] | null>(null);
   const [totalCards, setTotalCards] = useState<string>('');
-  const [imdbIdCard, setimdbIdCard] = useState<string>('');
+  const [imdbIdCard, setImdbIdCard] = useState<string>('');
+  const [pageChange, setPageChange] = useState<number>(1);
 
   const fetchCardsData = async (keyword: string, pageNumber = '1') => {
     try {
@@ -48,10 +49,11 @@ function Card({ searchWord }: Props) {
     if (typeof valueLocalStorage === 'string') {
       fetchCardsData(valueLocalStorage, pageNumber.toString());
     }
+    setPageChange(pageNumber);
   };
 
   const handleCardItemClick = (itemId: string) => {
-    setimdbIdCard(itemId);
+    setImdbIdCard(itemId);
   };
 
   useEffect(() => {
@@ -93,7 +95,11 @@ function Card({ searchWord }: Props) {
             ))
           )}
         </div>
-        <Item IdIMDB={imdbIdCard} searchWord={searchWord} />
+        <Item
+          IdIMDB={imdbIdCard}
+          searchWord={searchWord}
+          pageChange={pageChange}
+        />
       </div>
       <Pagination
         totalCards={totalCards}
