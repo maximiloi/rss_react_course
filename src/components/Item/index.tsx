@@ -18,9 +18,10 @@ interface ItemInterface {
 
 interface Props {
   IdIMDB: string;
+  searchWord: string;
 }
 
-function Item({ IdIMDB }: Props) {
+function Item({ IdIMDB, searchWord }: Props) {
   const [totalCards, setTotalCards] = useState<ItemInterface | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isItemVisible, setItemIsVisible] = useState(true);
@@ -61,6 +62,10 @@ function Item({ IdIMDB }: Props) {
       setItemIsVisible(true);
     }
   }, [IdIMDB]);
+
+  useEffect(() => {
+    setItemIsVisible(false);
+  }, [searchWord]);
 
   if (isLoading) {
     return <Spin />;

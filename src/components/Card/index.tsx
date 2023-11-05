@@ -93,7 +93,7 @@ function Card({ searchWord }: Props) {
             ))
           )}
         </div>
-        <Item IdIMDB={imdbIdCard} />
+        <Item IdIMDB={imdbIdCard} searchWord={searchWord} />
       </div>
       <Pagination
         totalCards={totalCards}
