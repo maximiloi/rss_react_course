@@ -79,6 +79,9 @@ function Item({ IdIMDB }: Props) {
   return (
     <div className="item__wrapper">
       <div className="item__box">
+        <button className="item__close" type="button">
+          Close
+        </button>
         <img src={Poster} alt={Title} className="item__img-top" />
         <div className="item__body">
           <span className="item__type">Type: {Type}</span>

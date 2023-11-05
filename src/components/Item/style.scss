@@ -6,6 +6,16 @@
     padding: 0 30px;
   }
 
+  &__box {
+    position: relative;
+  }
+
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
   &__text {
     & span {
       padding: 0 10px;

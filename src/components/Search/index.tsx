@@ -48,7 +48,7 @@ function Search({ onSearchChange }: Props) {
         onChange={handleInputChange}
         onKeyDown={handleKeyPress}
       />
-      <button type="submit" className="search__button" onClick={handleSearch}>
+      <button type="button" className="search__button" onClick={handleSearch}>
         search
       </button>
     </div>
