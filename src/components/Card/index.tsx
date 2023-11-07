@@ -11,23 +11,21 @@ import LocalStorage from '@helper/localStorage';
 
 import './style.scss';
 
-export interface ICard {
+interface ICard {
   imdbID: string;
   Title: string;
   Poster: string;
   Year: string;
 }
 
-interface Props {
-  searchWord: string;
-}
-
-function Card({ searchWord }: Props) {
+function Card() {
   const [loading, setLoading] = useState<boolean>(true);
   const [itemArray, setItemArray] = useState<ICard[] | null>(null);
   const [totalCards, setTotalCards] = useState<string>('');
   const [imdbIdCard, setImdbIdCard] = useState<string>('');
   const [pageChange, setPageChange] = useState<number>(1);
+  const [searchWord, setSearchWord] = useState<string>('');
+
   const [searchParams] = useSearchParams();
   const location = useLocation();
 
@@ -38,7 +36,6 @@ function Card({ searchWord }: Props) {
         Search: ICard[];
         totalResults: string;
       } = await ApiResponse.fetchCardsData(keyword, pageNumber.toString());
-
       setItemArray(response.Search);
       setTotalCards(response.totalResults);
     } catch (error) {
@@ -49,10 +46,6 @@ function Card({ searchWord }: Props) {
   };
 
   const handlePageChange = (pageNumber: number) => {
-    const valueLocalStorage = LocalStorage.getResult();
-    if (typeof valueLocalStorage === 'string') {
-      fetchCardsData(valueLocalStorage, pageNumber);
-    }
     setPageChange(pageNumber);
   };
 
@@ -61,8 +54,10 @@ function Card({ searchWord }: Props) {
   };
 
   useEffect(() => {
-    const query = searchParams.get('search');
+    const query: string | null = searchParams.get('search');
+
     if (query) return;
+
     const valueLocalStorage = LocalStorage.getResult();
     if (typeof valueLocalStorage === 'string') {
       fetchCardsData(valueLocalStorage, pageChange);
@@ -73,16 +68,14 @@ function Card({ searchWord }: Props) {
     const query = searchParams.get('search');
     const page = searchParams.get('page');
 
-    if (searchWord) {
-      fetchCardsData(searchWord, pageChange);
-    }
     if (query && !page) {
       fetchCardsData(query, 1);
+      setSearchWord(query);
     }
     if (query && page) {
       fetchCardsData(query, +page);
     }
-  }, [location.search, searchWord]);
+  }, [location.search]);
 
   return (
     <>
