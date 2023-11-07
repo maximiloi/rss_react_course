@@ -12,10 +12,11 @@ function Search() {
   const handleSearch = (event: { preventDefault: () => void }) => {
     event.preventDefault();
 
-    LocalStorage.setResult(inputValue);
-
-    searchParams.set('search', inputValue);
-    navigate(`?${searchParams}`);
+    if (inputValue !== localStorage.getItem('name-cinema-iloi')) {
+      searchParams.set('search', inputValue);
+      searchParams.delete('page');
+      navigate(`?${searchParams}`);
+    }
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
