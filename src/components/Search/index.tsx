@@ -13,6 +13,8 @@ function Search() {
     event.preventDefault();
 
     if (inputValue !== localStorage.getItem('name-cinema-iloi')) {
+      LocalStorage.setResult(inputValue);
+
       searchParams.set('search', inputValue);
       searchParams.delete('page');
       navigate(`?${searchParams}`);
