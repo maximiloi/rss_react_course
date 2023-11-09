@@ -1,10 +1,10 @@
 class LocalStorage {
-  static getResult() {
+  static getLocalStorageValue() {
     return localStorage.getItem('name-cinema-iloi');
   }
 
-  static setResult(inputValue: string) {
-    localStorage.setItem('name-cinema-iloi', inputValue);
+  static setLocalStorageValue(value: string) {
+    localStorage.setItem('name-cinema-iloi', value);
   }
 }
 
