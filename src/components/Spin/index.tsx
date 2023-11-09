@@ -5,7 +5,7 @@ import './style.scss';
 export default function Spin() {
   return (
     <div className="spin">
-      <img className="spin__img" src={spinImg} alt="loading" />
+      <img className="spin__img" src={spinImg} alt="loading..." />
     </div>
   );
 }
