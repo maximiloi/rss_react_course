@@ -9,14 +9,8 @@ import Pagination from '@components/Pagination';
 import ApiResponse from '@helper/apiResponce';
 import LocalStorage from '@helper/localStorage';
 
+import { IFetchResponce, ICard } from './type';
 import './style.scss';
-
-interface ICard {
-  imdbID: string;
-  Title: string;
-  Poster: string;
-  Year: string;
-}
 
 function Card() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -32,10 +26,11 @@ function Card() {
   const fetchCardsData = async (keyword: string, pageNumber: number) => {
     try {
       setLoading(true);
-      const response: {
-        Search: ICard[];
-        totalResults: string;
-      } = await ApiResponse.fetchCardsData(keyword, pageNumber.toString());
+      const response: IFetchResponce = await ApiResponse.fetchCardsData(
+        keyword,
+        pageNumber.toString()
+      );
+
       setItemArray(response.Search);
       setTotalCards(response.totalResults);
     } catch (error) {
@@ -55,12 +50,12 @@ function Card() {
 
   useEffect(() => {
     const query: string | null = searchParams.get('search');
+    const storedSearchValue = LocalStorage.getLocalStorageValue();
 
     if (query) return;
 
-    const valueLocalStorage = LocalStorage.getLocalStorageValue();
-    if (typeof valueLocalStorage === 'string') {
-      fetchCardsData(valueLocalStorage, pageChange);
+    if (typeof storedSearchValue === 'string') {
+      fetchCardsData(storedSearchValue, pageChange);
     }
   }, []);
 
