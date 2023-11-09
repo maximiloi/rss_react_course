@@ -4,8 +4,8 @@ import './style.scss';
 
 function ErrorPage() {
   const error = useRouteError();
-
   let errorMessage: string;
+
   if (isRouteErrorResponse(error)) {
     errorMessage = error.statusText;
   } else if (error instanceof Error) {

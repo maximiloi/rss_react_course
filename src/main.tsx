@@ -1,9 +1,8 @@
-// import React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import ErrorPage from '@components/Error';
+import ErrorPage from '@components/ErrorPage';
 import Main from '@components/Main';
-
 import App from './App';
 
 import './index.scss';
@@ -18,7 +17,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.querySelector('#app')!).render(
-  // <React.StrictMode>
-  <RouterProvider router={router} />
-  // </React.StrictMode>
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
 );
