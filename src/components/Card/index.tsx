@@ -58,7 +58,7 @@ function Card() {
 
     if (query) return;
 
-    const valueLocalStorage = LocalStorage.getResult();
+    const valueLocalStorage = LocalStorage.getLocalStorageValue();
     if (typeof valueLocalStorage === 'string') {
       fetchCardsData(valueLocalStorage, pageChange);
     }

@@ -5,29 +5,37 @@ import LocalStorage from '@helper/localStorage';
 import './style.scss';
 
 function Search() {
-  const [inputValue, setInputValue] = useState<string>('');
+  const [searchValue, setSearchValue] = useState<string>('');
+
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const handleSearch = (event: { preventDefault: () => void }) => {
     event.preventDefault();
 
-    if (inputValue !== localStorage.getItem('name-cinema-iloi')) {
-      LocalStorage.setResult(inputValue);
+    const storedSearchValue: string | null =
+      LocalStorage.getLocalStorageValue();
 
-      searchParams.set('search', inputValue);
+    if (searchValue !== storedSearchValue) {
+      LocalStorage.setLocalStorageValue(searchValue);
+
+      searchParams.set('search', searchValue);
       searchParams.delete('page');
       navigate(`?${searchParams}`);
     }
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
+    setSearchValue(event.target.value);
   };
 
   useEffect(() => {
-    const storedValue = LocalStorage.getResult();
-    if (typeof storedValue === 'string') setInputValue(storedValue);
+    const storedSearchValue: string | null =
+      LocalStorage.getLocalStorageValue();
+
+    if (typeof storedSearchValue === 'string') {
+      setSearchValue(storedSearchValue);
+    }
   }, []);
 
   return (
@@ -36,7 +44,7 @@ function Search() {
         type="text"
         className="search__input"
         placeholder="search movie..."
-        value={inputValue}
+        value={searchValue}
         onChange={handleInputChange}
       />
       <button type="submit" className="search__button" onClick={handleSearch}>

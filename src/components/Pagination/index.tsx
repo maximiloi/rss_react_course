@@ -25,14 +25,14 @@ function Pagination({
     setCurrentPage(pageNumber);
     onPageChange(pageNumber);
 
-    const inputValue = LocalStorage.getResult();
-    if (!inputValue) return;
+    const storedSearchValue = LocalStorage.getLocalStorageValue();
+    if (!storedSearchValue) return;
 
     if (pageNumber === 1) {
-      searchParams.set('search', inputValue);
+      searchParams.set('search', storedSearchValue);
       searchParams.delete('page');
     } else {
-      searchParams.set('search', inputValue);
+      searchParams.set('search', storedSearchValue);
       searchParams.set('page', pageNumber.toString());
     }
     navigate(`?${searchParams.toString()}`);
