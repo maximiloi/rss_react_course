@@ -2,23 +2,24 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 import ApiResponse from '@helper/apiResponce';
 import setRatingColor from '@helper/setRatingColor';
 
-import { ItemInterface, ParamsInterface } from './type';
+import { ItemInterface, LoaderParams } from './type';
 import './style.scss';
 
-export async function loaderCardData({ params }: { params: ParamsInterface }) {
-  const itemResponce: ItemInterface = await ApiResponse.fetchItemData(
-    params.itemId
+export async function loaderCardData(args: { params: LoaderParams }) {
+  const itemResponse: ItemInterface = await ApiResponse.fetchItemData(
+    args.params.itemId
   );
 
-  if (itemResponce.Response === 'True') {
-    return { itemResponce };
+  if (itemResponse.Response === 'True') {
+    return { itemResponse };
   }
 
-  throw new Error(`${itemResponce.Error}`);
+  throw new Error(`${itemResponse.Error}`);
 }
 
 function Item() {
-  const { itemResponce } = useLoaderData() as { itemResponce: ItemInterface };
+  const { itemResponse } = useLoaderData() as { itemResponse: ItemInterface };
+
   const navigate = useNavigate();
 
   const closeItem = () => {
@@ -35,7 +36,7 @@ function Item() {
     Plot,
     imdbRating,
     Type,
-  } = itemResponce;
+  } = itemResponse;
 
   return (
     <div className="item">
@@ -48,7 +49,7 @@ function Item() {
           <span className="item__type">Type: {Type}</span>
           <h3 className="item__title">{Title}</h3>
           <p className="item__text">
-            IMDb Rating: {setRatingColor(imdbRating)}
+            IMDb Rating: {setRatingColor(Number(imdbRating))}
           </p>
           <p className="item__text">Premiere: {Released}</p>
           <p className="item__text">Genre: {Genre}</p>
