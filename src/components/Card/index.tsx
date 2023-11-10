@@ -1,10 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useState } from 'react';
-import { useSearchParams, useLocation } from 'react-router-dom';
+import { useSearchParams, useLocation, Outlet, Link } from 'react-router-dom';
 
 import Spin from '@components/Spin';
-import Item from '@components/Item';
 import Pagination from '@components/Pagination';
 import ApiResponse from '@helper/apiResponce';
 import LocalStorage from '@helper/localStorage';
@@ -16,7 +15,6 @@ function Card() {
   const [loading, setLoading] = useState<boolean>(true);
   const [itemArray, setItemArray] = useState<ICard[] | null>(null);
   const [totalCards, setTotalCards] = useState<string>('');
-  const [imdbIdCard, setImdbIdCard] = useState<string>('');
   const [pageChange, setPageChange] = useState<number>(1);
   const [searchWord, setSearchWord] = useState<string>('');
 
@@ -42,10 +40,6 @@ function Card() {
 
   const handlePageChange = (pageNumber: number) => {
     setPageChange(pageNumber);
-  };
-
-  const handleCardItemClick = (itemId: string) => {
-    setImdbIdCard(itemId);
   };
 
   useEffect(() => {
@@ -80,29 +74,23 @@ function Card() {
             <Spin />
           ) : (
             itemArray?.map((item: ICard) => (
-              <div
-                className="card__item"
-                key={item.imdbID}
-                onClick={() => handleCardItemClick(item.imdbID)}
-              >
-                <img
-                  className="card__img"
-                  src={item.Poster}
-                  alt={item.Title}
-                  width="182px"
-                  height="268px"
-                />
-                <p>{item.Year}</p>
-                <h3>{item.Title}</h3>
-              </div>
+              <Link to={`item/${item.imdbID}`} key={item.imdbID}>
+                <div className="card__item">
+                  <img
+                    className="card__img"
+                    src={item.Poster}
+                    alt={item.Title}
+                    width="182px"
+                    height="268px"
+                  />
+                  <p>{item.Year}</p>
+                  <h3>{item.Title}</h3>
+                </div>
+              </Link>
             ))
           )}
         </div>
-        <Item
-          IdIMDB={imdbIdCard}
-          searchWord={searchWord}
-          pageChange={pageChange}
-        />
+        <Outlet />
       </div>
       <Pagination
         totalCards={totalCards}
