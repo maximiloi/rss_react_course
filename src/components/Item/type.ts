@@ -11,3 +11,7 @@ export interface ItemInterface {
   Response: string;
   Error: string;
 }
+
+export interface ParamsInterface {
+  itemId: string;
+}
