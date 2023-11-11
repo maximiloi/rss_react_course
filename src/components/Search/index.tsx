@@ -1,11 +1,12 @@
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useEffect, ChangeEvent, useContext } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import AppContext from '@context/AppContext';
 import LocalStorage from '@helper/localStorage';
 
 import './style.scss';
 
 function Search() {
-  const [searchValue, setSearchValue] = useState<string>('');
+  const { searchValue, setSearchValue } = useContext(AppContext);
 
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
