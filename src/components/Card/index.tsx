@@ -19,6 +19,7 @@ function Card() {
   const [pageChange, setPageChange] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemCount, setItemCount] = useState<number>(1);
+  const [isVisible, setIsVisible] = useState<boolean>(true);
 
   const cardContextValue: CardContextType = useMemo(
     () => ({
@@ -30,8 +31,10 @@ function Card() {
       setCurrentPage,
       itemCount,
       setItemCount,
+      isVisible,
+      setIsVisible,
     }),
-    [totalCards, pageChange, currentPage, itemCount]
+    [totalCards, pageChange, currentPage, itemCount, isVisible]
   );
 
   const [itemArray, setItemArray] = useState<ICard[] | null>(null);

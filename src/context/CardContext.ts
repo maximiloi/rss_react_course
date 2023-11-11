@@ -9,6 +9,8 @@ export type CardContextType = {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   itemCount: number;
   setItemCount: React.Dispatch<React.SetStateAction<number>>;
+  isVisible: boolean;
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const CardContext = createContext<CardContextType>({
@@ -20,6 +22,8 @@ const CardContext = createContext<CardContextType>({
   setCurrentPage: () => {},
   itemCount: 1,
   setItemCount: () => {},
+  isVisible: true,
+  setIsVisible: () => {},
 });
 
 export default CardContext;
