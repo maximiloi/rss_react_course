@@ -107,16 +107,20 @@ function Pagination() {
           ''
         )}
         {pages}
-        <li
-          className={
-            currentPage === itemCount
-              ? 'disabled pagination__item'
-              : 'pagination__item'
-          }
-          onClick={() => handlePageChange(itemCount)}
-        >
-          <span>{itemCount}</span>
-        </li>
+        {itemCount - currentPage > Math.ceil(visiblePages / 2) ? (
+          <li
+            className={
+              currentPage === itemCount
+                ? 'disabled pagination__item'
+                : 'pagination__item'
+            }
+            onClick={() => handlePageChange(itemCount)}
+          >
+            <span>{itemCount}</span>
+          </li>
+        ) : (
+          ''
+        )}
       </ul>
     );
   };
