@@ -9,7 +9,7 @@ import LocalStorage from '@helper/localStorage';
 import './style.scss';
 
 function Pagination() {
-  const { searchValue } = useContext(AppContext);
+  const { searchValue, loading } = useContext(AppContext);
 
   const {
     totalCards,
@@ -136,7 +136,7 @@ function Pagination() {
     setCurrentPage(+page);
   }, [location.search]);
 
-  return <div className="pagination">{renderPagination()}</div>;
+  return loading ? '' : <div className="pagination">{renderPagination()}</div>;
 }
 
 export default Pagination;
