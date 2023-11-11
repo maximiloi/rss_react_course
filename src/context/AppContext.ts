@@ -5,6 +5,8 @@ export type AppContextType = {
   setSearchValue: React.Dispatch<React.SetStateAction<string>>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  dataIsEmpty: boolean;
+  setDataIsEmpty: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const AppContext = createContext<AppContextType>({
@@ -12,6 +14,8 @@ const AppContext = createContext<AppContextType>({
   setSearchValue: () => {},
   loading: true,
   setLoading: () => {},
+  dataIsEmpty: false,
+  setDataIsEmpty: () => {},
 });
 
 export default AppContext;

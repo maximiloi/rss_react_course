@@ -12,7 +12,8 @@ import { IFetchResponce, ICard } from './type';
 import './style.scss';
 
 function Card() {
-  const { setSearchValue, loading, setLoading } = useContext(AppContext);
+  const { setSearchValue, loading, setLoading, setDataIsEmpty } =
+    useContext(AppContext);
 
   const [totalCards, setTotalCards] = useState<string>('');
   const [pageChange, setPageChange] = useState<number>(1);
@@ -41,6 +42,7 @@ function Card() {
   const fetchCardsData = async (keyword: string, pageNumber: number) => {
     try {
       setLoading(true);
+      setDataIsEmpty(true);
       const response: IFetchResponce = await ApiResponse.fetchCardsData(
         keyword,
         pageNumber.toString()
@@ -81,7 +83,7 @@ function Card() {
 
   return (
     <CardContext.Provider value={cardContextValue}>
-      <div className="cards cards__wrapper">
+      <div className="cards cards__wrapper" data-testid="cards-component">
         <div className="card card__list">
           {loading ? (
             <Spin />

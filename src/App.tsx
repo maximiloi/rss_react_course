@@ -6,10 +6,18 @@ import Main from '@components/Main';
 function App() {
   const [searchValue, setSearchValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
+  const [dataIsEmpty, setDataIsEmpty] = useState<boolean>(false);
 
   const appContextValue: AppContextType = useMemo(
-    () => ({ searchValue, setSearchValue, loading, setLoading }),
-    [loading, searchValue]
+    () => ({
+      searchValue,
+      setSearchValue,
+      loading,
+      setLoading,
+      dataIsEmpty,
+      setDataIsEmpty,
+    }),
+    [loading, searchValue, dataIsEmpty]
   );
 
   return (
