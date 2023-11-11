@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        path: 'item/:itemId',
+        path: '/:itemId',
         element: <Item />,
         loader: loaderCardData,
       },
