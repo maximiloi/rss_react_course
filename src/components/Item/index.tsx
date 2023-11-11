@@ -1,13 +1,20 @@
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import {
+  LoaderFunctionArgs,
+  useLoaderData,
+  useNavigate,
+} from 'react-router-dom';
 import ApiResponse from '@helper/apiResponce';
 import setRatingColor from '@helper/setRatingColor';
 
-import { ItemInterface, LoaderParams } from './type';
+import { ItemInterface } from './type';
 import './style.scss';
 
-export async function loaderCardData(args: { params: LoaderParams }) {
+export async function loaderCardData({ params }: LoaderFunctionArgs) {
+  if (typeof params.itemId === 'undefined') {
+    throw new Error('не правильный ид');
+  }
   const itemResponse: ItemInterface = await ApiResponse.fetchItemData(
-    args.params.itemId
+    params.itemId
   );
 
   if (itemResponse.Response === 'True') {
