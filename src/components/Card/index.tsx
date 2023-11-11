@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useSearchParams, useLocation, Outlet, Link } from 'react-router-dom';
 
+import AppContext from '@context/AppContext';
+import CardContext, { CardContextType } from '@context/CardContext';
 import Spin from '@components/Spin';
 import Pagination from '@components/Pagination';
 import ApiResponse from '@helper/apiResponce';
@@ -10,11 +12,28 @@ import { IFetchResponce, ICard } from './type';
 import './style.scss';
 
 function Card() {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [itemArray, setItemArray] = useState<ICard[] | null>(null);
+  const { setSearchValue, loading, setLoading } = useContext(AppContext);
+
   const [totalCards, setTotalCards] = useState<string>('');
   const [pageChange, setPageChange] = useState<number>(1);
-  const [searchWord, setSearchWord] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemCount, setItemCount] = useState<number>(1);
+
+  const cardContextValue: CardContextType = useMemo(
+    () => ({
+      totalCards,
+      setTotalCards,
+      pageChange,
+      setPageChange,
+      currentPage,
+      setCurrentPage,
+      itemCount,
+      setItemCount,
+    }),
+    [totalCards, pageChange, currentPage, itemCount]
+  );
+
+  const [itemArray, setItemArray] = useState<ICard[] | null>(null);
 
   const [searchParams] = useSearchParams();
   const location = useLocation();
@@ -36,10 +55,6 @@ function Card() {
     }
   };
 
-  const handlePageChange = (pageNumber: number) => {
-    setPageChange(pageNumber);
-  };
-
   useEffect(() => {
     const query: string | null = searchParams.get('search');
     const storedSearchValue = LocalStorage.getLocalStorageValue();
@@ -57,7 +72,7 @@ function Card() {
 
     if (query && !page) {
       fetchCardsData(query, 1);
-      setSearchWord(query);
+      setSearchValue(query);
     }
     if (query && page) {
       fetchCardsData(query, +page);
@@ -65,14 +80,14 @@ function Card() {
   }, [location.search]);
 
   return (
-    <>
+    <CardContext.Provider value={cardContextValue}>
       <div className="cards cards__wrapper">
         <div className="card card__list">
           {loading ? (
             <Spin />
           ) : (
             itemArray?.map((item: ICard) => (
-              <Link to={`item/${item.imdbID}`} key={item.imdbID}>
+              <Link to={`/${item.imdbID}`} key={item.imdbID}>
                 <div className="card__item">
                   <img
                     className="card__img"
@@ -90,12 +105,8 @@ function Card() {
         </div>
         <Outlet />
       </div>
-      <Pagination
-        totalCards={totalCards}
-        onPageChange={handlePageChange}
-        searchWord={searchWord}
-      />
-    </>
+      <Pagination />
+    </CardContext.Provider>
   );
 }
 

@@ -1,29 +1,32 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { useState, useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
+import AppContext from '@context/AppContext';
+import CardContext from '@context/CardContext';
 import LocalStorage from '@helper/localStorage';
 
 import './style.scss';
 
-function Pagination({
-  totalCards,
-  onPageChange,
-  searchWord,
-}: {
-  totalCards: string;
-  onPageChange: (pageNumber: number) => void;
-  searchWord: string;
-}) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemCount, setItemCount] = useState(1);
+function Pagination() {
+  const { searchValue } = useContext(AppContext);
+
+  const {
+    totalCards,
+    setPageChange,
+    currentPage,
+    setCurrentPage,
+    itemCount,
+    setItemCount,
+  } = useContext(CardContext);
+
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
-    onPageChange(pageNumber);
+    setPageChange(pageNumber);
 
     const storedSearchValue = LocalStorage.getLocalStorageValue();
     if (!storedSearchValue) return;
@@ -120,7 +123,7 @@ function Pagination({
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchWord]);
+  }, [searchValue]);
 
   useEffect(() => {
     const totalPages = Math.ceil(Number(totalCards) / 10);
