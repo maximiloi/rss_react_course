@@ -7,7 +7,7 @@ import {
   useNavigate,
 } from 'react-router-dom';
 import CardContext from '@context/CardContext';
-import ApiResponse from '@helper/apiResponce';
+import ApiResponse from '@helper/apiResponse';
 import setRatingColor from '@helper/setRatingColor';
 
 import { ItemInterface } from './type';

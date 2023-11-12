@@ -5,7 +5,7 @@ import AppContext from '@context/AppContext';
 import CardContext, { CardContextType } from '@context/CardContext';
 import Spin from '@components/Spin';
 import Pagination from '@components/Pagination';
-import ApiResponse from '@helper/apiResponce';
+import ApiResponse from '@helper/apiResponse';
 import LocalStorage from '@helper/localStorage';
 
 import { IFetchResponce, ICard } from './type';
