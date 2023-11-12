@@ -9,7 +9,11 @@ function Main() {
 
   return (
     <main>
-      {!dataIsEmpty ? <h2>Type in the title of the movie in English</h2> : ''}
+      {dataIsEmpty ? null : (
+        <h2 data-testid="main-title">
+          Type in the title of the movie in English
+        </h2>
+      )}
       <Card />
     </main>
   );
