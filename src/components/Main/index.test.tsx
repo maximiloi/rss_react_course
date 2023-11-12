@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-
 import { BrowserRouter } from 'react-router-dom';
+
 import AppContext, { AppContextType } from '../../context/AppContext';
 import Main from './index';
 
