@@ -1,0 +1,40 @@
+.pagination {
+  &__list {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 5px;
+
+    list-style: none;
+  }
+
+  &__item {
+    &:first-child {
+      margin-right: 10px;
+    }
+
+    &:last-child {
+      margin-left: 10px;
+    }
+
+    & span {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover {
+        font-size: 1.2rem;
+
+        color: rgb(131, 213, 23);
+      }
+    }
+    &.active {
+      font-size: 1.4rem;
+      margin: 0 10px;
+    }
+
+    &.disabled {
+      opacity: 0.5;
+    }
+  }
+}
